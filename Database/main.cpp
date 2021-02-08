@@ -6,11 +6,14 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <vector>
+#include <string>
 
 using namespace std;
 
 string ParseEvent(istream& is) {
-  // Реализуйте эту функцию
+    // Реализуйте эту функцию
+    return {};
 }
 
 void TestAll();

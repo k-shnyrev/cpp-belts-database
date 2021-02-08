@@ -1,13 +1,19 @@
-//
-//  database.hpp
-//  Database
-//
-//  Created by Kirill Shnyrev on 08.02.2021.
-//
+#pragma once
 
-#ifndef database_hpp
-#define database_hpp
+#include <string>
+#include <iostream>
+#include <vector>
 
-#include <stdio.h>
+#include "date.h"
+#include "node.h"
 
-#endif /* database_hpp */
+class Database {
+public:
+    void Add(const Date& date, const std::string& event);
+    void Print(std::ostream& cout) const;
+    template <class Predicate>
+    int RemoveIf(Predicate predicate);
+    template <class Predicate>
+    std::vector<std::string> FindIf(Predicate predicate);
+    const std::string Last(const Date& date) const;
+};

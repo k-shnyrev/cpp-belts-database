@@ -1,8 +1,10 @@
-//
-//  date.cpp
-//  Database
-//
-//  Created by Kirill Shnyrev on 08.02.2021.
-//
+#include "date.h"
 
-#include <stdio.h>
+Date::Date(int year, int month, int day) {
+    
+}
+
+Date ParseDate(std::istream& is) {
+    // Реализуйте эту функцию
+    return{{}, {}, {}};
+}

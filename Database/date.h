@@ -1,12 +1,10 @@
-//
-//  date.h
-//  Database
-//
-//  Created by Kirill Shnyrev on 08.02.2021.
-//
+#pragma once
 
-#ifndef date_h
-#define date_h
+#include <iostream>
 
+class Date {
+public:
+    Date(int year, int month, int day);
+};
 
-#endif /* date_h */
+Date ParseDate(std::istream& is);

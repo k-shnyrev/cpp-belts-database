@@ -1,8 +1,14 @@
-//
-//  node.cpp
-//  Database
-//
-//  Created by Kirill Shnyrev on 08.02.2021.
-//
+#include "node.h"
 
-#include <stdio.h>
+Node::Node() {
+    // to do
+}
+
+bool Node::Evaluate(const Date& date, const std::string&) {
+    // to do
+    return {};
+}
+
+Node::~Node() {
+    // to do
+}

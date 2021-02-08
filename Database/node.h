@@ -1,12 +1,34 @@
-//
-//  node.h
-//  Database
-//
-//  Created by Kirill Shnyrev on 08.02.2021.
-//
+#pragma once
 
-#ifndef node_h
-#define node_h
+#include <string>
 
+#include "date.h"
 
-#endif /* node_h */
+enum class Comparison {
+    Less,
+    LessOrEqual,
+    Greater,
+    GreaterOrEqual,
+    Equal,
+    NotEqual
+};
+
+enum class LogicalOperation {
+    And,
+    Or
+};
+
+class Node {
+public:
+    Node();
+    bool Evaluate(const Date& date, const std::string& event);
+    ~Node();
+};
+
+class DateComparisonNode : public Node {
+    
+};
+
+class EventComparisonNode : public Node {
+    
+};
