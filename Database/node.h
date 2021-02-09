@@ -25,6 +25,15 @@ public:
     ~Node();
 };
 
+class LogicalOperationNode : public Node {
+
+};
+
+class EmptyNode : public Node {
+
+};
+
+
 class DateComparisonNode : public Node {
     
 };
