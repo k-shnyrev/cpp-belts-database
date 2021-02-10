@@ -1,7 +1,7 @@
 #include "test_runner.h"
 
 template <class T>
-ostream& operator << (ostream& os, const set<T>& s) {
+std::ostream& operator<<(std::ostream& os, const std::set<T>& s) {
     os << "{";
     bool first = true;
     for (const auto& x : s) {
@@ -15,7 +15,7 @@ ostream& operator << (ostream& os, const set<T>& s) {
 }
 
 template <class K, class V>
-ostream& operator << (ostream& os, const map<K, V>& m) {
+std::ostream& operator<<(std::ostream& os, const std::map<K, V>& m) {
     os << "{";
     bool first = true;
     for (const auto& kv : m) {
@@ -29,29 +29,33 @@ ostream& operator << (ostream& os, const map<K, V>& m) {
 }
 
 template<class T, class U>
-void AssertEqual(const T& t, const U& u, const string& hint)
+void AssertEqual(const T& t, const U& u, const std::string& hint)
 {
     if (t != u) {
-        ostringstream os;
+        std::ostringstream os;
         os << "Assertion failed: " << t << " != " << u << " hint: " << hint;
-        throw runtime_error(os.str());
+        throw std::runtime_error(os.str());
     }
 }
 
-template <class TestFunc>
-void TestRunner::RunTest(TestFunc func, const string& test_name) {
-    try {
-        func();
-        cerr << test_name << " OK\n";
-    } catch (runtime_error& e) {
-        ++fail_count;
-        cerr << test_name << " fail: " << e.what() << '\n';
-    }
+void Assert(bool b, const std::string& hint) {
+    AssertEqual(b, true, hint);
 }
 
-TestRunner::~TestRunner() {
-    if (fail_count > 0) {
-        cerr << fail_count << " unit tests failed. Terminate\n";
-        exit(1);
+template<class T, class U>
+bool operator==(const std::vector<T>& left, const std::vector<U>& right) {
+    if (left.size() != right.size()) {
+        return false;
     }
+    for (int i = 0; i < left.size(); ++i) {
+        if (left[i] != right[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template<class T, class U>
+bool operator!=(const std::vector<T>& left, const std::vector<U>& right) {
+    return !(left == right);
 }

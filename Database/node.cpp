@@ -5,10 +5,35 @@ Node::Node() {
 }
 
 bool Node::Evaluate(const Date& date, const std::string&) {
-    // to do
-    return {};
+    return true;
 }
 
-Node::~Node() {
-    // to do
+bool DateComparisonNode::Evaluate(const Date& date, const std::string& event) {
+    return date == date_;
+}
+
+bool EventComparisonNode::Evaluate(const Date& date, const std::string& event) {
+    if (cmp_ == Comparison::Less) {
+        return event < value_;
+    } else if (cmp_ == Comparison::LessOrEqual) {
+        return event <= value_;
+    } else if (cmp_ == Comparison::Greater) {
+        return event > value_;
+    } else if (cmp_ == Comparison::GreaterOrEqual) {
+        return event >= value_;
+    } else if (cmp_ == Comparison::Equal) {
+        return event == value_;
+    } else if (cmp_ == Comparison::NotEqual) {
+        return event != value_;
+    }
+    return true;
+}
+
+bool LogicalOperationNode::Evaluate(const Date& date, const std::string& event) {
+    if (logical_operation_ == LogicalOperation::And) {
+        return left_->Evaluate(date, event) && right_->Evaluate(date, event);
+    } else if (logical_operation_ == LogicalOperation::Or) {
+        return left_->Evaluate(date, event) || right_->Evaluate(date, event);
+    }
+    return true;
 }
