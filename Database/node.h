@@ -21,11 +21,12 @@ enum class LogicalOperation {
 
 class Node {
 public:
-    Node();
-    virtual bool Evaluate(const Date& date, const std::string& event);
+    virtual bool Evaluate(const Date& date, const std::string& event) const = 0;
 };
 
 class EmptyNode : public Node {
+public:
+    bool Evaluate(const Date& date, const std::string& event) const override;
 };
 
 
@@ -34,7 +35,7 @@ public:
     DateComparisonNode(const Comparison& cmp, const Date& date) :
         cmp_{ cmp }, date_{ date } {
     }
-    bool Evaluate(const Date& date, const std::string& event) override;
+    bool Evaluate(const Date& date, const std::string& event) const override;
 private:
     const Comparison cmp_;
     const Date date_;
@@ -45,7 +46,7 @@ public:
     EventComparisonNode(const Comparison& cmp, const std::string& value) :
         cmp_{ cmp }, value_{ value } {
     };
-    bool Evaluate(const Date& date, const std::string& event) override;
+    bool Evaluate(const Date& date, const std::string& event) const override;
 private:
     const Comparison cmp_;
     const std::string value_;
@@ -56,7 +57,7 @@ public:
     LogicalOperationNode(const LogicalOperation& logical_operation, const std::shared_ptr<Node> left, const std::shared_ptr<Node> right) :
         logical_operation_{ logical_operation }, left_{ left }, right_{ right } {
     };
-    bool Evaluate(const Date& date, const std::string& event) override;
+    bool Evaluate(const Date& date, const std::string& event) const override;
 private:
     const LogicalOperation logical_operation_;
     const std::shared_ptr<Node> left_;

@@ -24,6 +24,7 @@ public:
         for(auto iter = storage.begin(); iter != storage.end(); ) {
             for (auto second_it = iter->second.begin(); second_it != iter->second.end(); ) {
                 if (p(iter->first, *second_it)) {
+                    storage_.at(iter->first).erase(*second_it);
                     second_it = iter->second.erase(second_it);
                     ++res;
                 } else {
@@ -33,6 +34,7 @@ public:
             if (iter->second.size() > 0) {
                 ++iter;
             } else {
+                storage_.erase(iter->first);
                 iter = storage.erase(iter);
             }
         }
@@ -40,7 +42,7 @@ public:
     };
     
     template <typename Predicate>
-    std::vector<std::pair<Date, std::string>> FindIf(Predicate p) {
+    std::vector<std::pair<Date, std::string>> FindIf(Predicate p) const {
         std::vector<std::pair<Date, std::string>> res;
         for (auto iter = storage.begin(); iter != storage.end(); ) {
             for (auto second_it = iter->second.begin(); second_it != iter->second.end(); ) {
@@ -57,6 +59,7 @@ public:
     const std::string Last(const Date& date) const;
 private:
     std::map<Date, std::vector<std::string>> storage;
+    std::map<Date, std::set<std::string>> storage_;
 };
 
 std::ostream& operator<<(std::ostream& os, const std::pair<Date, std::string>& record);

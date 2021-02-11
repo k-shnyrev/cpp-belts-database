@@ -3,6 +3,7 @@
 #include "condition_parser.h"
 #include "node.h"
 #include "test_runner.h"
+#include "test_db.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -11,15 +12,11 @@
 
 using namespace std;
 
-const string ParseEvent(istream& is) {
+string ParseEvent(istream& is) {
     string s;
     getline(is, s);
-    istringstream iss{ s };
-    string res;
-    iss >> res;
-    while (iss >> s) {
-        res += " " + s;
-    }
+    auto it = s.find_first_not_of(" \t");
+    string res(s, it);
     return res;
 }
 
@@ -76,25 +73,36 @@ int main() {
 }
 
 void TestParseEvent() {
-  {
-    istringstream is("event");
-//    AssertEqual(ParseEvent(is), "event", "Parse event without leading spaces");
-  }
-  {
-    istringstream is("   sport event ");
-//    AssertEqual(ParseEvent(is), "sport event ", "Parse event with leading spaces");
-  }
-  {
-    istringstream is("  first event  \n  second event");
-    vector<string> events;
-    events.push_back(ParseEvent(is));
-    events.push_back(ParseEvent(is));
-//    AssertEqual(events, vector<string>{"first event  ", "second event"}, "Parse multiple events");
-  }
+    {
+        istringstream is("event");
+        AssertEqual(ParseEvent(is), "event", "Parse event without leading spaces");
+    }
+    {
+        istringstream is("   sport event ");
+        AssertEqual(ParseEvent(is), "sport event ", "Parse event with leading spaces");
+    }
+    {
+        istringstream is("  first event  \n  second event");
+        vector<string> events;
+        events.push_back(ParseEvent(is));
+        events.push_back(ParseEvent(is));
+        AssertEqual(events, vector<string>{"first event  ", "second event"}, "Parse multiple events");
+    }
 }
 
 void TestAll() {
-  TestRunner tr;
-  tr.RunTest(TestParseEvent, "TestParseEvent");
-  tr.RunTest(TestParseCondition, "TestParseCondition");
+    TestRunner tr;
+    tr.RunTest(TestParseEvent, "TestParseEvent");
+    tr.RunTest(TestParseCondition, "TestParseCondition");
+    tr.RunTest(TestEmptyNode, "Тест 2 из Coursera");
+    tr.RunTest(TestDbAdd, "Тест 3(1) из Coursera");
+    tr.RunTest(TestDbFind, "Тест 3(2) из Coursera");
+    tr.RunTest(TestDbLast, "Тест 3(3) из Coursera");
+    tr.RunTest(TestDbRemoveIf, "Тест 3(4) из Coursera");
+    tr.RunTest(TestInsertionOrder, "Тест на порядок вывода");
+    tr.RunTest(TestsMyCustom, "Мои тесты");
+    tr.RunTest(TestDatabase, "Тест базы данных с GitHub");
+    tr.RunTest(TestDbFind2, "Тест из комментариев");
+    tr.RunTest(Test14, "Тест 14");
+    tr.RunTest(Test14_2, "Тест 14_2");
 }
