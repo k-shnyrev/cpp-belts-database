@@ -9,7 +9,25 @@ bool Node::Evaluate(const Date& date, const std::string&) {
 }
 
 bool DateComparisonNode::Evaluate(const Date& date, const std::string& event) {
-    return date == date_;
+    if (cmp_ == Comparison::Less) {
+        return date < date_;
+    }
+    else if (cmp_ == Comparison::LessOrEqual) {
+        return date <= date_;
+    }
+    else if (cmp_ == Comparison::Greater) {
+        return date > date_;
+    }
+    else if (cmp_ == Comparison::GreaterOrEqual) {
+        return date >= date_;
+    }
+    else if (cmp_ == Comparison::Equal) {
+        return date == date_;
+    }
+    else if (cmp_ == Comparison::NotEqual) {
+        return date != date_;
+    }
+    return true;
 }
 
 bool EventComparisonNode::Evaluate(const Date& date, const std::string& event) {

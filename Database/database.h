@@ -15,41 +15,48 @@ public:
     void Add(const Date& date, const std::string& event);
     bool DeleteEvent(const Date& date, const std::string& event);
     int DeleteDate(const Date& date);
-    std::set<std::string> Find(const Date& date) const;
+    std::vector<std::string> Find(const Date& date) const;
     void Print(std::ostream& os) const;
     
     template <typename Predicate>
     int RemoveIf(Predicate p) {
-        int original_size = int(storage.size());
+        int res = 0;
         for(auto iter = storage.begin(); iter != storage.end(); ) {
             for (auto second_it = iter->second.begin(); second_it != iter->second.end(); ) {
                 if (p(iter->first, *second_it)) {
                     second_it = iter->second.erase(second_it);
+                    ++res;
                 } else {
-                ++second_it;
+                    ++second_it;
                 }
             }
-            ++iter;
+            if (iter->second.size() > 0) {
+                ++iter;
+            } else {
+                iter = storage.erase(iter);
+            }
         }
-        return original_size - int(storage.size());
+        return res;
     };
     
     template <typename Predicate>
-    std::vector<std::string> FindIf(Predicate p) {
-        std::vector<std::string> res;
+    std::vector<std::pair<Date, std::string>> FindIf(Predicate p) {
+        std::vector<std::pair<Date, std::string>> res;
         for (auto iter = storage.begin(); iter != storage.end(); ) {
             for (auto second_it = iter->second.begin(); second_it != iter->second.end(); ) {
                 if (p(iter->first, *second_it)) {
-                    res.push_back(*second_it);
+                    res.push_back(std::make_pair(iter->first, *second_it));
                 }
                 ++second_it;
             }
             ++iter;
         }
-        return {};
+        return res;
     };
     
     const std::string Last(const Date& date) const;
 private:
-    std::map<Date, std::set<std::string>> storage;
+    std::map<Date, std::vector<std::string>> storage;
 };
+
+std::ostream& operator<<(std::ostream& os, const std::pair<Date, std::string>& record);

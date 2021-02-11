@@ -4,3 +4,4 @@
 .vs/**
 Debug/**
 .DS_Store
+*.zip

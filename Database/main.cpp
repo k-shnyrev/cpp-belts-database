@@ -13,8 +13,14 @@ using namespace std;
 
 const string ParseEvent(istream& is) {
     string s;
-    is >> s;
-    return s;
+    getline(is, s);
+    istringstream iss{ s };
+    string res;
+    iss >> res;
+    while (iss >> s) {
+        res += " " + s;
+    }
+    return res;
 }
 
 void TestAll();
@@ -72,18 +78,18 @@ int main() {
 void TestParseEvent() {
   {
     istringstream is("event");
-    //AssertEqual(ParseEvent(is), "event", "Parse event without leading spaces");
+//    AssertEqual(ParseEvent(is), "event", "Parse event without leading spaces");
   }
   {
     istringstream is("   sport event ");
-    //AssertEqual(ParseEvent(is), "sport event ", "Parse event with leading spaces");
+//    AssertEqual(ParseEvent(is), "sport event ", "Parse event with leading spaces");
   }
   {
     istringstream is("  first event  \n  second event");
     vector<string> events;
     events.push_back(ParseEvent(is));
     events.push_back(ParseEvent(is));
-    //AssertEqual(events, vector<string>{"first event  ", "second event"}, "Parse multiple events");
+//    AssertEqual(events, vector<string>{"first event  ", "second event"}, "Parse multiple events");
   }
 }
 
